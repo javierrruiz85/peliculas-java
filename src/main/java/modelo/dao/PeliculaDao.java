@@ -35,7 +35,7 @@ public class PeliculaDao {
 		
 		ArrayList<Pelicula> registros = new ArrayList<Pelicula>();
 		
-		String sql = "SELECT id, nombre FROM peliculas ORDER BY id ASC; ";
+		String sql = "SELECT id, nombre, duracion, anio, caratula FROM peliculas ORDER BY id ASC; ";
 		
 		try (
 				Connection conexion = ConnectionManager.getConnection();
@@ -48,11 +48,17 @@ public class PeliculaDao {
 				//recuperar columnas del resultset
 				int id = rs.getInt("id");
 				String nombre = rs.getString("nombre");
+				int duracion = rs.getInt("duracion");
+				int anio = rs.getInt("anio");
+				String caratula = rs.getString("caratula");
 				
 				//crear el pojo con los datos del resultset
 				Pelicula pelicula = new Pelicula();
 				pelicula.setId(id);
 				pelicula.setNombre(nombre);
+				pelicula.setDuracion(duracion);
+				pelicula.setAnio(anio);
+				pelicula.setCaratula(caratula);
 				
 				//guardar en el arraylist
 				registros.add(pelicula);

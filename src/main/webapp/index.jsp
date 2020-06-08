@@ -14,14 +14,20 @@
 	<thead>
 		<tr>
 			<th>Id</th>
-			<th>Nombre</th>					
+			<th>Nombre</th>
+			<th>Duracion</th>	
+			<th>Año</th>	
+			<th>Caratula</th>						
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${peliculas}" var="p">
 			<tr>
 				<td>${p.id}</td> 
-				<td>${p.nombre}</td>		
+				<td>${p.nombre}</td>
+				<td>${p.duracion}</td>
+				<td>${p.anio}</td>
+				<td><div class="img-tabla"><img src="${p.caratula}" alt="imagen..."></div></td>		
 			</tr>
 		</c:forEach>
 	</tbody>
