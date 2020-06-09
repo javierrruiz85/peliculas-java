@@ -27,7 +27,7 @@
   <body>
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-info">
         <!-- logo -->
-        <a class="navbar-brand" href="index.jsp">
+        <a class="navbar-brand" href="peliculas">
             <i class="fab fa-fort-awesome-alt"></i>
         </a>
 
@@ -40,7 +40,10 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item ${ ( 'inicio' eq param.pagina ) ? 'active' : '' } ">
-              <a class="nav-link" href="index.jsp">Inicio</a>
+              <a class="nav-link" href="peliculas">Inicio</a>
+            </li>
+            <li class="nav-item ${ ( 'crear-pelicula' eq param.pagina ) ? 'active' : '' } ">
+              <a class="nav-link" href="crear-pelicula">Crear pelicula</a>
             </li>
             
             
@@ -51,7 +54,7 @@
       <main role="main" class="container">
       
       
-      	
+      	<jsp:include page="alerta.jsp"></jsp:include>
       
       
       

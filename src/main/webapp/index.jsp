@@ -8,6 +8,9 @@
 
 <h1>Tabla peliculas</h1>
 
+
+<br>
+<a href="crear-pelicula">Insertar una nueva pelicula</a>
 <br>
 
 <table class="tabla table table-striped table-bordered">
