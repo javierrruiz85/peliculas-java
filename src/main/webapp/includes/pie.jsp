@@ -1,6 +1,6 @@
 	  </main>
      
-      <div class="bg-info">
+      <div class="bg-verde">
         <footer class="container p-2 text-dark">
             <p>&copy; Company 2017-2020</p>
         </footer>

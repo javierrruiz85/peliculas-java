@@ -25,7 +25,7 @@
     <title> ${param.title} | Ejercicios</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-info">
+    <nav class="navbar navbar-default navbar-expand-md navbar-light fixed-top">
         <!-- logo -->
         <a class="navbar-brand" href="peliculas">
             <i class="fab fa-fort-awesome-alt"></i>
@@ -51,7 +51,7 @@
         </div>
       </nav>
       
-      <main role="main" class="container">
+      <main role="main" class="container p-5 bg-white">
       
       
       	<jsp:include page="alerta.jsp"></jsp:include>

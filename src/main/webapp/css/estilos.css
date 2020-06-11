@@ -1,17 +1,22 @@
 
 body {
-	background-color: #fff2bf;
+	background-color: #e4f29f;
 }
 
 main[role="main"] {
-    margin-top: 4rem;
+    margin-top: 6rem;
     min-height: 80vh;
     margin-bottom: 4rem;
 }
 
-
 footer {
     color: #FFF;
+    background-color: #2EA657; !important
+    border-color: #E7E7E7; !important
+}
+
+.bg-verde {
+	background-color: #2EA657;
 }
 
 .form-signin {
@@ -35,6 +40,11 @@ footer {
     margin-bottom: 1rem;
 }
 
+.navbar-default {
+	background-color: #2EA657;
+    border-color: #E7E7E7;
+}
+
 .navbar-brand i {
     display: block;
     text-align: center;
@@ -49,3 +59,17 @@ footer {
 .img-tabla {
     text-align: center;
 }
+
+.icono {
+	color: black;
+}
+
+a {
+	color: green; !important
+}
+
+.boton {
+	background-color: #569b10;
+	border-color: #153e0f;
+}
+

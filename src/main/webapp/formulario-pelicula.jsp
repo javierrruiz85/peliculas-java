@@ -9,7 +9,7 @@
 
 <h1>Crear pelicula</h1>
 
-${pelicula}
+
 
 <form action="crear-pelicula" method="post">
 	<div class="form-group">
@@ -32,7 +32,7 @@ ${pelicula}
 		<label for="caratula">Caratula:</label>
 		<input type="text" name="caratula" id="caratula" value="${pelicula.caratula}" class="form-control">
 	</div>
-	<input type="submit" value="Guardar" class="btn btn-primary btn-block">
+	<input type="submit" value="Guardar" class="btn boton btn-primary btn-block">
 </form>
 
 

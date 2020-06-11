@@ -20,7 +20,8 @@
 			<th>Nombre</th>
 			<th>Duracion</th>	
 			<th>Año</th>	
-			<th>Caratula</th>						
+			<th>Caratula</th>
+			<th>Operaciones</th>						
 		</tr>
 	</thead>
 	<tbody>
@@ -30,7 +31,14 @@
 				<td>${p.nombre}</td>
 				<td>${p.duracion}</td>
 				<td>${p.anio}</td>
-				<td><div class="img-tabla"><img src="${p.caratula}" alt="imagen..."></div></td>		
+				<td><div class="img-tabla"><img src="${p.caratula}" alt="imagen..."></div></td>
+				<td>
+					<!-- En la linea siguiente, rara vez el href va a una .jsp, es mejor ir directo al controlador (crear-pelicula) -->
+					<a href="crear-pelicula?id=${p.id}"><i class="fas icono fa-edit fa-2x" title="Editar pelicula"></i> Editar &nbsp; </a>
+						
+					<a href="eliminar-pelicula?id=${p.id}"><i class="far icono fa-trash-alt fa-2x" title="Eliminar pelicula"></i> Eliminar </a>
+					
+				</td>		
 			</tr>
 		</c:forEach>
 	</tbody>
