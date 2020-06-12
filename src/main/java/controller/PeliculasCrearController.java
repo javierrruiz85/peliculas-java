@@ -14,7 +14,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import model.pojo.Alerta;
+import controller.pojo.Alerta;
 import model.pojo.Pelicula;
 import modelo.dao.PeliculaDao;
 
@@ -79,10 +79,30 @@ public class PeliculasCrearController extends HttpServlet {
 			String anioParametro = request.getParameter("anio");
 			String caratula = request.getParameter("caratula");
 			
-			int id = Integer.parseInt(idParametro);
-			int duracion = Integer.parseInt(duracionParametro);
-			int anio = Integer.parseInt(anioParametro);
+			// para que no casque en caso de que no pueda parsear, hacemos lo siguiente
 			
+			// 1º. declaramos las variables
+			int duracion = 0;
+			int anio = 0;
+			
+			// 2º. hacemos un try-catch por cada variable a parsear, si no puede las setea a 0 para que siga
+			// como el pojo tiene validaciones, va a saltar por ahi el fallo
+			try {	
+				duracion = Integer.parseInt(duracionParametro);
+			} catch (Exception e) {
+				duracion = 0;
+			} // try-catch validacion duracion
+			
+			try {	
+				anio = Integer.parseInt(anioParametro);
+			} catch (Exception e) {
+				anio = 0;
+			} // try-catch validacion anio
+			
+			// el id no lo controlamos porque ya tiene un catch que controla esas excepciones
+			int id = Integer.parseInt(idParametro);
+			
+
 			// Como lo tenemos declarado arriba del todo no lo necesitamos aqui, estando arriba podemos usarlo en todo
 			//PeliculaDao dao = PeliculaDao.getInstance();
 			

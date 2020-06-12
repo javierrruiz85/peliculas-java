@@ -38,15 +38,31 @@
       
         <!-- lista enlaces -->
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item ${ ( 'inicio' eq param.pagina ) ? 'active' : '' } ">
-              <a class="nav-link" href="peliculas">Inicio</a>
-            </li>
-            <li class="nav-item ${ ( 'crear-pelicula' eq param.pagina ) ? 'active' : '' } ">
-              <a class="nav-link" href="crear-pelicula">Crear pelicula</a>
-            </li>
+        
+			<ul class="navbar-nav mr-auto">
+			
+				<li class="nav-item ${ ( 'inicio' eq param.pagina ) ? 'active' : '' } ">
+					<a class="nav-link" href="peliculas">Inicio</a>
+				</li>
+				
+				<li class="nav-item ${ ( 'crear-pelicula' eq param.pagina ) ? 'active' : '' } ">
+					<a class="nav-link" href="crear-pelicula">Crear pelicula</a>
+				</li>
+				
+			</ul>
+			
+            <span class="form-inline">
             
-            
+				<c:if test="${ empty usuario_login }">
+	             	 <a class="nav-link  btn btn-outline-warning" href="login.jsp">Iniciar Sesion</a>
+	            </c:if>
+	            
+	            <c:if test="${ not empty usuario_login }">
+	             	 <span class="badge badge-pill badge-warning mr-3">${usuario_login.nombre}</span>
+            		 <a class="nav-link  btn btn-outline-warning" href="logout">Cerrar Sesion</a>
+	            </c:if>
+	            
+			</span>
         
         </div>
       </nav>

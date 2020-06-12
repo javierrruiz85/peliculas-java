@@ -64,12 +64,26 @@ footer {
 	color: black;
 }
 
+.icono:hover {
+	color: #45e145;
+}
+
 a {
 	color: green; !important
 }
 
+a:hover {
+  color: #45e145;
+}
+
 .boton {
 	background-color: #569b10;
-	border-color: #153e0f;
+	border-color: black;
+}
+
+.boton:hover {
+	background-color: #ffc107;
+	border-color: black;
+	text-color: black;
 }
 
