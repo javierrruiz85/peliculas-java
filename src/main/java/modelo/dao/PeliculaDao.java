@@ -33,9 +33,9 @@ public class PeliculaDao {
 	
 	
 	// executeQuery => ResultSet
-	private final String SQL_GET_ALL = " SELECT id, nombre, duracion, anio, caratula FROM peliculas ORDER BY id ASC; ";
-	private final String SQL_GET_BY_ID = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE id = ?; " ;
-	private final String SQL_GET_BY_NOMBRE = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE nombre LIKE ?; ";
+	private final String SQL_GET_ALL = " SELECT id, nombre, duracion, anio, caratula FROM peliculas ORDER BY id ASC LIMIT 500; ";
+	private final String SQL_GET_BY_ID = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE id = ? LIMIT 500; " ;
+	private final String SQL_GET_BY_NOMBRE = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE nombre LIKE ? LIMIT 500; ";
 	
 	// executeUpdate => int de numero de filas afectadas (affectedRows)
 	private final String SQL_INSERT = " INSERT INTO peliculas (nombre, duracion, anio, caratula) VALUES (?, ?, ?, ?); ";

@@ -31,7 +31,7 @@ public class UsuarioDao {
 	// Fin Singleton
 	
 	// executeQuery => ResultSet
-	private final String SQL_EXISTE = "SELECT id, nombre, pass, imagen FROM usuario WHERE nombre = ? AND pass = ?;" ;
+	private final String SQL_EXISTE = "SELECT id, nombre, pass, imagen FROM usuario WHERE nombre = ? AND pass = ? LIMIT 500;" ;
 	
 	// executeUpdate => int de numero de filas afectadas (affectedRows)
 	
