@@ -19,7 +19,8 @@
 			<th>Id</th>
 			<th>Nombre</th>
 			<th>Duracion</th>	
-			<th>Año</th>	
+			<th>Año</th>
+			<th>Distribuidora</th>	
 			<th>Caratula</th>
 			<th>Operaciones</th>						
 		</tr>
@@ -31,6 +32,7 @@
 				<td>${p.nombre}</td>
 				<td>${p.duracion}</td>
 				<td>${p.anio}</td>
+				<td>${p.distribuidora.nombre}</td>
 				<td><div class="img-tabla"><img src="${p.caratula}" alt="imagen..."></div></td>
 				<td>
 					<!-- En la linea siguiente, rara vez el href va a una .jsp, es mejor ir directo al controlador (crear-pelicula) -->

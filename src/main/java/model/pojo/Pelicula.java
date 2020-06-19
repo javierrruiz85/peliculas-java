@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+
 public class Pelicula {
 	
 	// Tema validaciones
@@ -28,6 +29,8 @@ public class Pelicula {
 	
 	@NotBlank( message = "La pelicula debe tener una caratula")
 	private String caratula;
+	
+	private Distribuidora distribuidora;
 	
 	public Pelicula() {
 		super();
@@ -77,12 +80,22 @@ public class Pelicula {
 	public void setCaratula(String caratula) {
 		this.caratula = caratula;
 	}
+	
+	public Distribuidora getDistribuidora() {
+		return distribuidora;
+	}
+
+	public void setDistribuidora(Distribuidora distribuidora) {
+		this.distribuidora = distribuidora;
+	}
 
 	@Override
 	public String toString() {
 		return "Pelicula [id=" + id + ", nombre=" + nombre + ", duracion=" + duracion + ", anio=" + anio + ", caratula="
-				+ caratula + "]";
+				+ caratula + ", distribuidora=" + distribuidora + "]";
 	}
+
+	
 
 	
 	

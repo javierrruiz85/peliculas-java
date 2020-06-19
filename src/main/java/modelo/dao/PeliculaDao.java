@@ -2,10 +2,12 @@ package modelo.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.sql.Connection;
 
+import model.pojo.Distribuidora;
 import model.pojo.Pelicula;
 import modelo.conexion.ConnectionManager;
 
@@ -33,7 +35,20 @@ public class PeliculaDao {
 	
 	
 	// executeQuery => ResultSet
-	private final String SQL_GET_ALL = " SELECT id, nombre, duracion, anio, caratula FROM peliculas ORDER BY id ASC LIMIT 500; ";
+	// private final String SQL_GET_ALL = " SELECT id, nombre, duracion, anio, caratula FROM peliculas ORDER BY id ASC LIMIT 500; ";
+	private final String SQL_GET_ALL = " SELECT " + 
+											"p.id 'pelicula_id', " + 
+											"p.nombre 'pelicula_titulo', " + 
+											"duracion, " + 
+											"anio, " + 
+											"caratula, " + 
+											"d.id 'distribuidora_id', " + 
+											"d.nombre 'distribuidora_nombre' " + 
+										"FROM peliculas p, distribuidora d " + 
+										"WHERE p.id_distribuidora = d.id " + 
+										"ORDER BY p.id ASC " + 
+										"LIMIT 500; " ;
+	
 	private final String SQL_GET_BY_ID = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE id = ? LIMIT 500; " ;
 	private final String SQL_GET_BY_NOMBRE = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE nombre LIKE ? LIMIT 500; ";
 	
@@ -60,23 +75,8 @@ public class PeliculaDao {
 			
 			while( rs.next() ) {
 				
-				//recuperar columnas del resultset
-				int id = rs.getInt("id");
-				String nombre = rs.getString("nombre");
-				int duracion = rs.getInt("duracion");
-				int anio = rs.getInt("anio");
-				String caratula = rs.getString("caratula");
-				
-				//crear el pojo con los datos del resultset
-				Pelicula pelicula = new Pelicula();
-				pelicula.setId(id);
-				pelicula.setNombre(nombre);
-				pelicula.setDuracion(duracion);
-				pelicula.setAnio(anio);
-				pelicula.setCaratula(caratula);
-				
 				//guardar en el arraylist
-				registros.add(pelicula);
+				registros.add( mapper(rs) );
 				
 			}
 			
@@ -106,11 +106,7 @@ public class PeliculaDao {
 			
 			if ( rs.next() ) {
 				
-				registro.setId(rs.getInt("id"));
-				registro.setNombre(rs.getString("nombre"));
-				registro.setDuracion(rs.getInt("duracion"));
-				registro.setAnio(rs.getInt("anio"));
-				registro.setCaratula(rs.getString("caratula"));
+				registro = mapper(rs);
 				
 			} else {
 				
@@ -141,15 +137,7 @@ public class PeliculaDao {
 				
 				while ( rs.next() ) {
 					
-					Pelicula pelicula = new Pelicula();
-					
-					pelicula.setId(rs.getInt("id"));
-					pelicula.setNombre(rs.getString("nombre"));
-					pelicula.setDuracion(rs.getInt("duracion"));
-					pelicula.setAnio(rs.getInt("anio"));
-					pelicula.setCaratula(rs.getString("caratula"));
-					
-					registros.add(pelicula);
+					registros.add( mapper(rs) );
 					
 				} // while
 				
@@ -269,8 +257,31 @@ public class PeliculaDao {
 		
 		return registro;
 		
-	}
+	} // delete
 	
+	
+	
+	///////////////////////////////////////////////////////////////////		MAPPER	  ///////////////////////////////////////////////////////////////
+	
+	public Pelicula mapper(ResultSet rs) throws SQLException {
+		
+		Pelicula p = new Pelicula();
+		Distribuidora d = new Distribuidora();
+		
+		p.setId( rs.getInt("pelicula_id") );
+		p.setNombre( rs.getString("pelicula_titulo") );
+		p.setDuracion( rs.getInt("duracion") );
+		p.setAnio( rs.getInt("anio") );
+		p.setCaratula( rs.getString("caratula") );
+		
+		d.setId( rs.getInt("distribuidora_id") );
+		d.setNombre( rs.getString("distribuidora_nombre") );
+		
+		p.setDistribuidora(d);
+				
+		return p;
+		
+	}
 	
 	
 	

@@ -13,11 +13,12 @@
 	 	
 	 	Abajo, en el welcome-file-list que hace que vaya directamente al controlador, el nombre que se le da tiene que coincidir con
 	 	el del controlador. En este caso, el controlador PeliculasController se llama peliculas
+	 	Tras un cambio, el controlador al que llama es el de InicioController (inicio)
 	 	
 	 -->
 	 
 	<welcome-file-list>		
-		<welcome-file>peliculas</welcome-file>		
+		<welcome-file>inicio</welcome-file>		
 	</welcome-file-list>
   
 </web-app>
