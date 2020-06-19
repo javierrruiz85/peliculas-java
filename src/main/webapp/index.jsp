@@ -13,6 +13,17 @@
 <a href="crear-pelicula">Insertar una nueva pelicula</a>
 <br>
 
+<div class="btn-group">
+	<button type="button" class="btn boton btn-succes dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		Distribuidoras
+	</button>
+	<div class="dropdown-menu"> <! CAMBIAR >
+		<a class="dropdown-item" href="#">Action</a>
+		<a class="dropdown-item" href="#">Another action</a>
+		<a class="dropdown-item" href="#">Something else here</a>
+	</div>
+</div>
+
 <table class="tabla table table-striped table-bordered">
 	<thead>
 		<tr>

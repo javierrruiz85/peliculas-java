@@ -29,6 +29,13 @@
 		<input type="number" name="anio" id="anio" value="${pelicula.anio}" class="form-control" placeholder="Escribe el año de lanzamiento">
 	</div>
 	<div class="form-group">
+		<select class="custom-select" name="id_distribuidora">
+			<c:forEach items="${distribuidoras}" var="distribuidora">
+				<option value="${distribuidora.id}"  ${ ( distribuidora.id eq pelicula.distribuidora.id ) ? "selected" : "" }>${distribuidora.nombre}</option>
+			</c:forEach>
+		</select>
+	</div>
+	<div class="form-group">
 		<label for="caratula">Caratula:</label>
 		<input type="text" name="caratula" id="caratula" value="${pelicula.caratula}" class="form-control">
 	</div>

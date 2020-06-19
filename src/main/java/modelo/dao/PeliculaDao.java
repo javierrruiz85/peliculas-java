@@ -49,12 +49,22 @@ public class PeliculaDao {
 										"ORDER BY p.id ASC " + 
 										"LIMIT 500; " ;
 	
-	private final String SQL_GET_BY_ID = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE id = ? LIMIT 500; " ;
+	private final String SQL_GET_BY_ID = " SELECT " + 
+											"p.id 'pelicula_id', " + 
+											"p.nombre 'pelicula_titulo', " + 
+											"duracion, " + 
+											"anio, " + 
+											"caratula, " + 
+											"d.id 'distribuidora_id', " + 
+											"d.nombre 'distribuidora_nombre' " + 
+										"FROM peliculas p, distribuidora d " + 
+										"WHERE p.id_distribuidora = d.id AND p.id = ?; " ;
+	
 	private final String SQL_GET_BY_NOMBRE = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE nombre LIKE ? LIMIT 500; ";
 	
 	// executeUpdate => int de numero de filas afectadas (affectedRows)
-	private final String SQL_INSERT = " INSERT INTO peliculas (nombre, duracion, anio, caratula) VALUES (?, ?, ?, ?); ";
-	private final String SQL_UPDATE = " UPDATE peliculas SET nombre = ?, duracion = ?, anio = ?, caratula = ? WHERE id = ?; ";
+	private final String SQL_INSERT = " INSERT INTO peliculas (nombre, duracion, anio, caratula, id_distribuidora) VALUES (?, ?, ?, ?, ?); ";
+	private final String SQL_UPDATE = " UPDATE peliculas SET nombre = ?, duracion = ?, anio = ?, caratula = ?, id_distribuidora = ? WHERE id = ?; ";
 	private final String SQL_DELETE = " DELETE FROM peliculas WHERE id = ?; ";
 	
 	
@@ -170,6 +180,7 @@ public class PeliculaDao {
 			pst.setInt(2, pojo.getDuracion());
 			pst.setInt(3, pojo.getAnio());
 			pst.setString(4, pojo.getCaratula());
+			pst.setInt(5, pojo.getDistribuidora().getId());
 			
 			int affectedRows = pst.executeUpdate();
 			
@@ -214,7 +225,8 @@ public class PeliculaDao {
 			pst.setInt(2, pojo.getDuracion());
 			pst.setInt(3, pojo.getAnio());
 			pst.setString(4, pojo.getCaratula());
-			pst.setInt(5, pojo.getId());
+			pst.setInt(5, pojo.getDistribuidora().getId());
+			pst.setInt(6, pojo.getId());
 			
 			int affectedRows = pst.executeUpdate();
 			

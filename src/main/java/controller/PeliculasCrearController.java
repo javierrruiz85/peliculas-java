@@ -15,7 +15,9 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import controller.pojo.Alerta;
+import model.pojo.Distribuidora;
 import model.pojo.Pelicula;
+import modelo.dao.DistribuidoraDao;
 import modelo.dao.PeliculaDao;
 
 /**
@@ -25,7 +27,10 @@ import modelo.dao.PeliculaDao;
 public class PeliculasCrearController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	private static PeliculaDao dao = PeliculaDao.getInstance();
+	
+	private static PeliculaDao daoPelicula = PeliculaDao.getInstance();
+	private static DistribuidoraDao daoDistribuidora = DistribuidoraDao.getInstance();
+	
 	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	private static Validator validator = factory.getValidator();
        
@@ -55,6 +60,7 @@ public class PeliculasCrearController extends HttpServlet {
 			
 		} finally {
 			
+			request.setAttribute("distribuidoras", daoDistribuidora.getAll());
 			// ir a la vista o jsp
 			request.getRequestDispatcher("formulario-pelicula.jsp").forward(request, response);
 			
@@ -78,6 +84,7 @@ public class PeliculasCrearController extends HttpServlet {
 			String duracionParametro = request.getParameter("duracion");
 			String anioParametro = request.getParameter("anio");
 			String caratula = request.getParameter("caratula");
+			String distribuidoraId = request.getParameter("id_distribuidora");
 			
 			// para que no casque en caso de que no pueda parsear, hacemos lo siguiente
 			
@@ -98,9 +105,11 @@ public class PeliculasCrearController extends HttpServlet {
 			} catch (Exception e) {
 				anio = 0;
 			} // try-catch validacion anio
+
 			
 			// el id no lo controlamos porque ya tiene un catch que controla esas excepciones
 			int id = Integer.parseInt(idParametro);
+			int idDistribuidora = Integer.parseInt(distribuidoraId);
 			
 
 			// Como lo tenemos declarado arriba del todo no lo necesitamos aqui, estando arriba podemos usarlo en todo
@@ -112,6 +121,10 @@ public class PeliculasCrearController extends HttpServlet {
 			pelicula.setAnio(anio);
 			pelicula.setCaratula(caratula);
 			
+			Distribuidora d = new Distribuidora();
+			d.setId(idDistribuidora);
+			pelicula.setDistribuidora(d);
+			
 			
 			Set<ConstraintViolation<Pelicula>> violations = validator.validate(pelicula);
 			
@@ -119,9 +132,9 @@ public class PeliculasCrearController extends HttpServlet {
 				
 				// if-else para hacer insert (si al id que recoge es 0) o un update (cualquier otra id)
 				if ( id == 0 ) {
-					dao.insert(pelicula);
+					daoPelicula.insert(pelicula);
 				} else {
-					dao.update(pelicula);
+					daoPelicula.update(pelicula);
 				} // if-else 2 (seleccion entre insert o update)
 				
 				alerta = new Alerta("success", "Datos guardados");
@@ -161,6 +174,7 @@ public class PeliculasCrearController extends HttpServlet {
 			//enviar datos a la vista
 			request.setAttribute("alerta", alerta);
 			request.setAttribute("pelicula", pelicula);
+			request.setAttribute("distribuidoras", daoDistribuidora.getAll());
 			
 			//ir a la vista o jsp
 			request.getRequestDispatcher("formulario-pelicula.jsp").forward(request, response);
