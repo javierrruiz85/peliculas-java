@@ -42,12 +42,28 @@
 			<ul class="navbar-nav mr-auto">
 			
 				<li class="nav-item ${ ( 'inicio' eq param.pagina ) ? 'active' : '' } ">
-					<a class="nav-link" href="peliculas">Inicio</a>
+					<a class="nav-link" href="inicio">Inicio</a>
+				</li>
+				
+				<li class="nav-item ${ ( 'tabla-peliculas' eq param.pagina ) ? 'active' : '' } ">
+					<a class="nav-link" href="peliculas">Tabla peliculas</a>
 				</li>
 				
 				<li class="nav-item ${ ( 'crear-pelicula' eq param.pagina ) ? 'active' : '' } ">
 					<a class="nav-link" href="crear-pelicula">Crear pelicula</a>
 				</li>
+				
+				<li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+			           data-toggle="dropdown" aria-haspopup="true" 
+			           aria-expanded="false">Distribuidoras</a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        	<a class="dropdown-item" href="inicio">TODAS</a>
+			        	<c:forEach items="${distribuidoras}" var="distribuidora">
+			          		<a class="dropdown-item" href="inicio?idDistribuidora=${distribuidora.id}&distribuidora=${distribuidora.nombre}">${distribuidora.nombre}</a>
+			          	</c:forEach>			          
+			        </div>
+			    </li>
 				
 			</ul>
 			

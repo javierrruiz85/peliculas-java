@@ -1,4 +1,4 @@
-package modelo.conexion;
+package casa.mi.modelo.conexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

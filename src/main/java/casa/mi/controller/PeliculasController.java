@@ -1,4 +1,4 @@
-package controller;
+package casa.mi.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,15 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.pojo.Alerta;
-import model.pojo.Pelicula;
-import modelo.dao.PeliculaDao;
+import casa.mi.modelo.dao.PeliculaDao;
+import casa.mi.modelo.pojo.Pelicula;
 
 /**
- * Servlet implementation class PeliculasEliminarController
+ * Servlet implementation class PeliculasController
  */
-@WebServlet("/eliminar-pelicula")
-public class PeliculasEliminarController extends HttpServlet {
+@WebServlet("/peliculas") // el nombre del controlador tiene que coincidir con el del fichero web.xml para que funcione
+public class PeliculasController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
@@ -26,34 +25,13 @@ public class PeliculasEliminarController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Alerta alerta = new Alerta();
-		
-		// recoger parametro
-		String parametroId = request.getParameter("id");
-		int id = Integer.parseInt(parametroId);
-		
-		// llamar al modelo
 		PeliculaDao dao = PeliculaDao.getInstance();
 		
-		try {
-			
-			Pelicula p = dao.delete(id);
-			alerta = new Alerta("success", p.getNombre() + " ha sido eliminada con exito");
-			
-		} catch (Exception e) {
-			
-			alerta = new Alerta("danger", "No se ha podido eliminar");
-			e.printStackTrace();
-			
-		} // try-catch
-		
-		// enviar datos a la vista
 		ArrayList<Pelicula> peliculas = dao.getAll();
-		request.setAttribute("peliculas", peliculas);
-		request.setAttribute("alerta", alerta);
 		
-		// ir a la nueva vista o jsp
-		request.getRequestDispatcher("peliculas").forward(request, response);
+		request.setAttribute("peliculas", peliculas);
+		
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 		
 	}
 

@@ -1,4 +1,4 @@
-package controller.pojo;
+package casa.mi.controller.pojo;
 
 // aun siendo un pojo, como no actua con la BBDD, esta mejor situado en el controller, o incluso mejor en un controller.pojo
 

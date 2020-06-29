@@ -1,4 +1,4 @@
-package controller;
+package casa.mi.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,11 +14,11 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import controller.pojo.Alerta;
-import model.pojo.Distribuidora;
-import model.pojo.Pelicula;
-import modelo.dao.DistribuidoraDao;
-import modelo.dao.PeliculaDao;
+import casa.mi.controller.pojo.Alerta;
+import casa.mi.modelo.dao.DistribuidoraDao;
+import casa.mi.modelo.dao.PeliculaDao;
+import casa.mi.modelo.pojo.Distribuidora;
+import casa.mi.modelo.pojo.Pelicula;
 
 /**
  * Servlet implementation class PeliculasCrearController

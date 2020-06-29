@@ -1,38 +1,45 @@
-package controller;
+package casa.mi.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import model.pojo.Pelicula;
-import modelo.dao.PeliculaDao;
+import casa.mi.controller.pojo.Alerta;
 
 /**
- * Servlet implementation class PeliculasController
+ * Servlet implementation class LogoutController
  */
-@WebServlet("/peliculas") // el nombre del controlador tiene que coincidir con el del fichero web.xml para que funcione
-public class PeliculasController extends HttpServlet {
+@WebServlet("/logout")
+public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LogoutController() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String mensaje = "Sesion cerrada, hasta la proxima";
 		
-		PeliculaDao dao = PeliculaDao.getInstance();
+		request.setAttribute("alerta", new Alerta("success", mensaje));
 		
-		ArrayList<Pelicula> peliculas = dao.getAll();
+		HttpSession session = request.getSession();
+		session.invalidate();
+		session = null;
 		
-		request.setAttribute("peliculas", peliculas);
-		
-		request.getRequestDispatcher("index.jsp").forward(request, response);
-		
+		request.getRequestDispatcher("peliculas").forward(request, response);
+
 	}
 
 	/**

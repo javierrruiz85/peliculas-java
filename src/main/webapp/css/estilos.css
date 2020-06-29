@@ -87,3 +87,19 @@ a:hover {
 	text-color: black;
 }
 
+.row-card {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.row-card .card {
+	width: 19%;
+	margin-right: 0.5%;
+	margin-bottom: 0.5%;
+	box-sizing: content-box;
+}
+
+.row-card .card img {
+	height: 10em;
+}
+

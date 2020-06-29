@@ -1,12 +1,11 @@
-package modelo.dao;
+package casa.mi.modelo.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import modelo.conexion.ConnectionManager;
-
-import model.pojo.Usuario;
+import casa.mi.modelo.conexion.ConnectionManager;
+import casa.mi.modelo.pojo.Usuario;
 
 public class UsuarioDao {
 	

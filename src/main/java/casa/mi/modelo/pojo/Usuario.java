@@ -1,4 +1,4 @@
-package model.pojo;
+package casa.mi.modelo.pojo;
 
 public class Usuario {
 	

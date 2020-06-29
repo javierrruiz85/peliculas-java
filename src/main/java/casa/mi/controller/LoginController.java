@@ -1,4 +1,4 @@
-package controller;
+package casa.mi.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import controller.pojo.Alerta;
-import model.pojo.Usuario;
-import modelo.dao.UsuarioDao;
+import casa.mi.controller.pojo.Alerta;
+import casa.mi.modelo.dao.UsuarioDao;
+import casa.mi.modelo.pojo.Usuario;
 
 /**
  * Servlet implementation class LoginController

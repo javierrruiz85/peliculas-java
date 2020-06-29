@@ -1,15 +1,15 @@
-package modelo.dao;
+package casa.mi.modelo.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import java.sql.Connection;
+import casa.mi.modelo.conexion.ConnectionManager;
+import casa.mi.modelo.pojo.Distribuidora;
+import casa.mi.modelo.pojo.Pelicula;
 
-import model.pojo.Distribuidora;
-import model.pojo.Pelicula;
-import modelo.conexion.ConnectionManager;
+import java.sql.Connection;
 
 public class PeliculaDao {
 	
@@ -59,6 +59,36 @@ public class PeliculaDao {
 											"d.nombre 'distribuidora_nombre' " + 
 										"FROM peliculas p, distribuidora d " + 
 										"WHERE p.id_distribuidora = d.id AND p.id = ?; " ;
+	
+	private final String SQL_GET_LAST = " SELECT " + 
+											"p.id 'pelicula_id', " + 
+											"p.nombre 'pelicula_titulo', " + 
+											"p.duracion, " + 
+											"p.anio, " + 
+											"p.caratula, " + 
+											"d.id 'distribuidora_id', " + 
+											"d.nombre 'distribuidora_nombre'" + 
+										"FROM " + 
+											"peliculas p, distribuidora d " + 
+										"WHERE " + 
+											"p.id_distribuidora = d.id " + 
+										"ORDER BY p.id DESC " + 
+										"LIMIT ?; ";
+	
+	private final String SQL_GET_BY_DISTRIBUIDORA = " SELECT " + 
+															"p.id 'pelicula_id', " + 
+															"p.nombre 'pelicula_titulo', " + 
+															"p.duracion, " + 
+															"p.anio, " + 
+															"p.caratula, " + 
+															"d.id 'distribuidora_id', " + 
+															"d.nombre 'distribuidora_nombre' " + 
+														"FROM " + 
+															"peliculas p, distribuidora d " + 
+														"WHERE " + 
+															"p.id_distribuidora = d.id " + 
+														"AND d.id = ? " + 
+														"ORDER BY d.id DESC LIMIT ? ; ";
 	
 	private final String SQL_GET_BY_NOMBRE = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE nombre LIKE ? LIMIT 500; ";
 	
@@ -163,6 +193,63 @@ public class PeliculaDao {
 		return registros;
 		
 	} // getAllByNombre
+	
+	
+	
+	///////////////////////////////////////////////////////////////////		SQL_GET_LAST	  ///////////////////////////////////////////////////////////////
+	
+	public ArrayList<Pelicula> getLast(int numRegistros) {
+		
+		ArrayList<Pelicula> registros = new ArrayList<Pelicula>();
+		
+		try (	Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_LAST);
+			) {
+			
+			pst.setInt(1, numRegistros);
+			
+			try ( ResultSet rs = pst.executeQuery() ) {
+				while ( rs.next() ) {
+					registros.add( mapper(rs) );
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		return registros;
+	} // getLast
+	
+	
+	
+	///////////////////////////////////////////////////////////		SQL_GET_BY_DISTRIBUIDORA	  ///////////////////////////////////////////////////////
+	
+	public ArrayList<Pelicula> getAllByDistribuidora(int idDistribuidora, int numRegistros) {
+		
+		ArrayList<Pelicula> registros = new ArrayList<Pelicula>();
+		
+		try (	Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_DISTRIBUIDORA);
+			) {
+			
+			pst.setInt(1, idDistribuidora);
+			pst.setInt(2, numRegistros);
+			
+			try ( ResultSet rs = pst.executeQuery() ) {
+				while ( rs.next() ) {
+					registros.add( mapper(rs) );	
+				}
+			} // try
+			
+			 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} // try-catch
+		
+		return registros;
+	} // getByDistribuidora
 	
 	
 	
