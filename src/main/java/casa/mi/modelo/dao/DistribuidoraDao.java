@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import casa.mi.modelo.conexion.ConnectionManager;
 import casa.mi.modelo.pojo.Distribuidora;
 import casa.mi.modelo.pojo.Pelicula;
@@ -16,6 +18,7 @@ public class DistribuidoraDao {
 	// Inicio singleton
 	
 		public static DistribuidoraDao INSTANCE = null;
+		private final static Logger LOG = Logger.getLogger(DistribuidoraDao.class);
 		
 		private DistribuidoraDao() {
 			super();
@@ -50,12 +53,14 @@ public class DistribuidoraDao {
 				  ResultSet rs = pst.executeQuery();
 			) {
 
+				LOG.debug(pst);
 				while (rs.next()) {
 					registros.add(mapper(rs));
 				} // while
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
+				LOG.error(e);
 			}
 			return registros;
 
@@ -73,6 +78,8 @@ public class DistribuidoraDao {
 			) {
 
 				System.out.println(pst); // para mostrar en consola el valor de la SQL
+				
+				LOG.debug(pst);
 				
 				while (rs.next()) {
 					
@@ -104,7 +111,8 @@ public class DistribuidoraDao {
 
 			} catch (Exception e) {
 				
-				e.printStackTrace();
+				//e.printStackTrace();
+				LOG.error(e);
 				
 			}// try-catch
 			

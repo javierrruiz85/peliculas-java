@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.apache.log4j.Logger;
+
 import casa.mi.modelo.conexion.ConnectionManager;
 import casa.mi.modelo.pojo.Usuario;
 
@@ -12,6 +14,7 @@ public class UsuarioDao {
 	// Inicio singleton
 	
 	public static UsuarioDao INSTANCE = null;
+	private final static Logger LOG = Logger.getLogger(UsuarioDao.class);
 	
 	private UsuarioDao() {
 		super();
@@ -49,6 +52,8 @@ public class UsuarioDao {
 			pst.setString(1, nombre);
 			pst.setString(2, pass);
 			
+			LOG.debug(pst);
+			
 			try ( ResultSet rs = pst.executeQuery() ) {
 				
 				if ( rs.next() ) {
@@ -65,7 +70,8 @@ public class UsuarioDao {
 			
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			//e.printStackTrace();
+			LOG.error(e);
 			
 		} // try-catch 1
 		

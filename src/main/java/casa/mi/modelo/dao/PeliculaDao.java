@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import casa.mi.modelo.conexion.ConnectionManager;
 import casa.mi.modelo.pojo.Distribuidora;
 import casa.mi.modelo.pojo.Pelicula;
@@ -15,6 +17,7 @@ public class PeliculaDao {
 	
 	// Inicio singleton
 	
+	private final static Logger LOG = Logger.getLogger(PeliculaDao.class);
 	public static PeliculaDao INSTANCE = null;
 	
 	private PeliculaDao() {
@@ -113,6 +116,7 @@ public class PeliculaDao {
 				ResultSet rs = pst.executeQuery();
 				){
 			
+			LOG.debug(pst);
 			while( rs.next() ) {
 				
 				//guardar en el arraylist
@@ -121,7 +125,8 @@ public class PeliculaDao {
 			}
 			
 		} catch (Exception e) {		
-			e.printStackTrace();
+			//e.printStackTrace();
+			LOG.error(e);
 		} // try-catch
 		
 		return registros;
@@ -142,6 +147,7 @@ public class PeliculaDao {
 			
 			// le decimos que la primera interrogacion de la sql (el numero 1) es el parametro id
 			pst.setInt(1, id);
+			LOG.debug(pst);
 			ResultSet rs = pst.executeQuery();
 			
 			if ( rs.next() ) {
@@ -172,6 +178,7 @@ public class PeliculaDao {
 			) {
 			
 			pst.setString(1, "%" + palabraBuscada + "%");
+			LOG.debug(pst);
 			
 			try ( ResultSet rs = pst.executeQuery(); ) {
 				
@@ -185,7 +192,8 @@ public class PeliculaDao {
 			
 		} catch (Exception e) {
 
-			e.printStackTrace();
+			//e.printStackTrace();
+			LOG.error(e);
 
 		} // catch
 		
@@ -207,6 +215,7 @@ public class PeliculaDao {
 			) {
 			
 			pst.setInt(1, numRegistros);
+			LOG.debug(pst);
 			
 			try ( ResultSet rs = pst.executeQuery() ) {
 				while ( rs.next() ) {
@@ -215,7 +224,8 @@ public class PeliculaDao {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			LOG.error(e);
 		}
 	
 		return registros;
@@ -235,6 +245,7 @@ public class PeliculaDao {
 			
 			pst.setInt(1, idDistribuidora);
 			pst.setInt(2, numRegistros);
+			LOG.debug(pst);
 			
 			try ( ResultSet rs = pst.executeQuery() ) {
 				while ( rs.next() ) {
@@ -245,7 +256,8 @@ public class PeliculaDao {
 			 
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			LOG.error(e);
 		} // try-catch
 		
 		return registros;
@@ -268,6 +280,8 @@ public class PeliculaDao {
 			pst.setInt(3, pojo.getAnio());
 			pst.setString(4, pojo.getCaratula());
 			pst.setInt(5, pojo.getDistribuidora().getId());
+			
+			LOG.debug(pst);
 			
 			int affectedRows = pst.executeUpdate();
 			
@@ -315,6 +329,8 @@ public class PeliculaDao {
 			pst.setInt(5, pojo.getDistribuidora().getId());
 			pst.setInt(6, pojo.getId());
 			
+			LOG.debug(pst);
+			
 			int affectedRows = pst.executeUpdate();
 			
 			if (affectedRows != 1) {
@@ -346,6 +362,7 @@ public class PeliculaDao {
 			) {
 			
 			pst.setInt(1, id);
+			LOG.debug(pst);
 			int affectedRows = pst.executeUpdate();
 			
 			if (affectedRows != 1) {

@@ -53,7 +53,7 @@ public class InicioController extends HttpServlet {
 		ArrayList<Distribuidora> distribuidorasConPeliculas = new ArrayList<Distribuidora>();
 		String encabezado = "";
 		
-		if ( TODAS_LAS_DISTRIBUIDORAS.equals(paramDistNombre) ) {		// todos los productos de todas las categorias
+		if ( TODAS_LAS_DISTRIBUIDORAS.equals(paramIdDistribuidora) ) {		// todos los productos de todas las categorias
 			
 			// TODO ver como limitar en java o sql el numero de peliculas
 			distribuidorasConPeliculas = distribuidoraDao.getAllWithPeliculas();
