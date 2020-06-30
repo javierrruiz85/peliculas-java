@@ -31,7 +31,7 @@ public class PeliculasController extends HttpServlet {
 		
 		request.setAttribute("peliculas", peliculas);
 		
-		request.getRequestDispatcher("index.jsp").forward(request, response);
+		request.getRequestDispatcher("vistas/peliculas/tabla-peliculas.jsp").forward(request, response);
 		
 	}
 
@@ -39,7 +39,7 @@ public class PeliculasController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

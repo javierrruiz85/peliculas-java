@@ -7,12 +7,16 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Todas las rutas relativas comienzan por el href indicado justo abajo -->
+    <!-- ${pageContext.request.contextPath} == http://localhost:8080/peliculas.javi -->
+    <base href="${pageContext.request.contextPath}/" />
 
     <!-- fontawesome 5 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/estilos.css">
@@ -70,7 +74,7 @@
             <span class="form-inline">
             
 				<c:if test="${ empty usuario_login }">
-	             	 <a class="nav-link  btn btn-outline-warning" href="login.jsp">Iniciar Sesion</a>
+	             	 <a class="nav-link  btn btn-outline-warning" href="vistas/login.jsp">Iniciar Sesion</a>
 	            </c:if>
 	            
 	            <c:if test="${ not empty usuario_login }">
@@ -85,8 +89,13 @@
       
       <main role="main" class="container p-5 bg-white">
       
+      	<%@ include file="alerta.jsp" %>
       
+      <!-- 
+      CUIDADO porque esto lo incluye en funcion de la url en la que estemos
       	<jsp:include page="alerta.jsp"></jsp:include>
+       -->
+      	
       
       
       

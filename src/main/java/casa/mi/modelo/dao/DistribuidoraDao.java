@@ -42,7 +42,7 @@ public class DistribuidoraDao {
 		//private final String SQL_GET_BY_ID = " SELECT id, nombre FROM distribuidora WHERE id = ?; ";
 
 		// executeUpdate => int de numero de filas afectadas (affectedRows)
-		// TODO crear las sql
+		// crear las sql
 		
 		public ArrayList<Distribuidora> getAll() {
 			
@@ -120,7 +120,7 @@ public class DistribuidoraDao {
 
 		}
 
-		// TODO implementar estos metodos cuando necesitemos
+		// implementar estos metodos cuando necesitemos
 
 		
 		public Distribuidora getById(int id) throws Exception {

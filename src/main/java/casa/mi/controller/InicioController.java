@@ -55,7 +55,6 @@ public class InicioController extends HttpServlet {
 		
 		if ( TODAS_LAS_DISTRIBUIDORAS.equals(paramIdDistribuidora) ) {		// todos los productos de todas las categorias
 			
-			// TODO ver como limitar en java o sql el numero de peliculas
 			distribuidorasConPeliculas = distribuidoraDao.getAllWithPeliculas();
 			encabezado = "Todas las peliculas por distribuidora";
 			

@@ -62,7 +62,7 @@ public class PeliculasCrearController extends HttpServlet {
 			
 			request.setAttribute("distribuidoras", daoDistribuidora.getAll());
 			// ir a la vista o jsp
-			request.getRequestDispatcher("formulario-pelicula.jsp").forward(request, response);
+			request.getRequestDispatcher("vistas/peliculas/formulario-pelicula.jsp").forward(request, response);
 			
 		} //try-catch-finally
 		
@@ -177,7 +177,7 @@ public class PeliculasCrearController extends HttpServlet {
 			request.setAttribute("distribuidoras", daoDistribuidora.getAll());
 			
 			//ir a la vista o jsp
-			request.getRequestDispatcher("formulario-pelicula.jsp").forward(request, response);
+			request.getRequestDispatcher("vistas/peliculas/formulario-pelicula.jsp").forward(request, response);
 			
 		} // try-catch-catch-finally
 		
