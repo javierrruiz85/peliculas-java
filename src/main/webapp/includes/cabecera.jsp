@@ -49,18 +49,32 @@
 					<a class="nav-link" href="inicio">Inicio</a>
 				</li>
 				
-				<li class="nav-item ${ ( 'tabla-peliculas' eq param.pagina ) ? 'active' : '' } ">
-					<a class="nav-link" href="peliculas">Tabla peliculas</a>
+				<li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Peliculas</a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        	<a class="dropdown-item ${ ( 'tabla-peliculas' eq param.pagina ) ? 'active' : '' } " href="peliculas">Tabla peliculas</a>
+			        	<a class="dropdown-item ${ ( 'crear-pelicula' eq param.pagina ) ? 'active' : '' } " href="crear-pelicula">Gestionar peliculas</a>			          
+			        </div>
+			    </li>
+			    
+			    <li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Distribuidoras</a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        	<a class="dropdown-item ${ ( 'tabla-distribuidoras' eq param.pagina ) ? 'active' : '' } " href="distribuidora">Tabla distribuidoras</a>
+			        	<a class="dropdown-item ${ ( 'crear-distribuidora' eq param.pagina ) ? 'active' : '' } " href="distribuidora?id=0">Gestionar distribuidoras</a>			          
+			        </div>
+			    </li>
+				
+				<li class="nav-item ${ ( 'tabla-distribuidoras' eq param.pagina ) ? 'active' : '' } ">
+					<a class="nav-link" href="distribuidora">Tabla distribuidoras</a>
 				</li>
 				
-				<li class="nav-item ${ ( 'crear-pelicula' eq param.pagina ) ? 'active' : '' } ">
-					<a class="nav-link" href="crear-pelicula">Crear pelicula</a>
+				<li class="nav-item ${ ( 'crear-distribuidora' eq param.pagina ) ? 'active' : '' } ">
+					<a class="nav-link" href="distribuidora?id=0">Crear distribuidora</a>
 				</li>
 				
 				<li class="nav-item dropdown">
-			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
-			           data-toggle="dropdown" aria-haspopup="true" 
-			           aria-expanded="false">Distribuidoras</a>
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Distribuidoras</a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 			        	<a class="dropdown-item" href="inicio">TODAS</a>
 			        	<c:forEach items="${distribuidoras}" var="distribuidora">
@@ -79,6 +93,7 @@
 	            
 	            <c:if test="${ not empty usuario_login }">
 	             	 <span class="badge badge-pill badge-warning mr-3">${usuario_login.nombre}</span>
+	             	 <span class="badge badge-pill badge-warning mr-3">${usuarios_conectados}</span>
             		 <a class="nav-link  btn btn-outline-warning" href="logout">Cerrar Sesion</a>
 	            </c:if>
 	            

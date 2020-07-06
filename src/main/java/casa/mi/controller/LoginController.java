@@ -1,6 +1,8 @@
 package casa.mi.controller;
 
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +39,9 @@ public class LoginController extends HttpServlet {
 		String nombre = request.getParameter("nombre");
 		String pass = request.getParameter("pass");
 		
+		//ejemplo pruebas, borrar despues
+		int contador = 0;
+		
 		HttpSession session = request.getSession();
 		
 		// Buscar usuario y contraseña en la BBDD
@@ -46,6 +51,12 @@ public class LoginController extends HttpServlet {
 		if (usuario != null) {
 			
 			session.setAttribute("usuario_login", usuario);
+			
+			// ejemplo pruebas, borrar despues
+			contador ++;
+			ServletContext sc = request.getServletContext();
+			sc.setAttribute("usuarios_conectados", contador);
+			//session.setAttribute("usuarios_conectados", contador);
 			
 			String mensaje = "Bienvenido " + nombre;
 			

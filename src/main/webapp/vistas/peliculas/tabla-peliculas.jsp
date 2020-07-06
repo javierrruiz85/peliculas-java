@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 
 <jsp:include page="../../includes/cabecera.jsp" >
-  <jsp:param name="pagina" value="inicio" />
-  <jsp:param name="title" value="Inicio" /> 
+  <jsp:param name="pagina" value="tabla-peliculas" />
+  <jsp:param name="title" value="Tabla-peliculas" /> 
 </jsp:include>
 
 <h1>Tabla peliculas</h1>
