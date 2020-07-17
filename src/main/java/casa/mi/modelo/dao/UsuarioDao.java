@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import org.apache.log4j.Logger;
 
 import casa.mi.modelo.conexion.ConnectionManager;
+import casa.mi.modelo.pojo.Rol;
 import casa.mi.modelo.pojo.Usuario;
 
 public class UsuarioDao {
@@ -33,7 +34,7 @@ public class UsuarioDao {
 	// Fin Singleton
 	
 	// executeQuery => ResultSet
-	private final String SQL_EXISTE = "SELECT id, nombre, pass, imagen FROM usuario WHERE nombre = ? AND pass = ? LIMIT 500;" ;
+	private final String SQL_EXISTE = "SELECT u.id, u.nombre, pass, imagen, id_rol, r.nombre 'nombre_rol' FROM usuario u, rol r WHERE u.id_rol = r.id AND u.nombre = ? AND pass = ? LIMIT 500;" ;
 	
 	// executeUpdate => int de numero de filas afectadas (affectedRows)
 	
@@ -43,7 +44,7 @@ public class UsuarioDao {
 	
 	public Usuario existe(String nombre, String pass) {
 		
-		Usuario registro = null;
+		Usuario usuario = null;
 		
 		try (	Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(SQL_EXISTE);
@@ -58,11 +59,20 @@ public class UsuarioDao {
 				
 				if ( rs.next() ) {
 					
-					registro = new Usuario();
-					registro.setId(rs.getInt("id"));
-					registro.setNombre(rs.getString("nombre"));
-					registro.setPass(rs.getString("pass"));
-					registro.setImagen(rs.getString("imagen"));
+					// usuario
+					usuario = new Usuario();
+					usuario.setId(rs.getInt("id"));
+					usuario.setNombre(rs.getString("nombre"));
+					usuario.setPass(rs.getString("pass"));
+					usuario.setImagen(rs.getString("imagen"));
+					
+					// rol
+					Rol rol = new Rol();
+					rol.setId(rs.getInt("id_rol"));
+					rol.setNombre(rs.getString("nombre_rol"));
+					
+					// setear el rol al usuario
+					usuario.setRol(rol);
 					
 				} // if
 				
@@ -75,7 +85,7 @@ public class UsuarioDao {
 			
 		} // try-catch 1
 		
-		return registro;
+		return usuario;
 		
 	} // existe
 	

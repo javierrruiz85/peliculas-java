@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import casa.mi.controller.pojo.Alerta;
 import casa.mi.modelo.dao.UsuarioDao;
+import casa.mi.modelo.pojo.Rol;
 import casa.mi.modelo.pojo.Usuario;
 
 /**
@@ -61,7 +62,14 @@ public class LoginController extends HttpServlet {
 			String mensaje = "Bienvenido " + nombre;
 			
 			request.setAttribute("alerta", new Alerta("success", mensaje));
-			request.getRequestDispatcher("peliculas").forward(request, response);
+			
+			if ( usuario.getRol().getId() == Rol.ADMIN) {
+				// TODO cambiar al controller de inicio backoffice, y crearlo primero
+				request.getRequestDispatcher("vistas/backoffice/index.jsp").forward(request, response);
+			} else {
+				// TODO cambiar al controller de inicio frontoffice, y crearlo primero
+				request.getRequestDispatcher("vistas/frontoffice/index.jsp").forward(request, response);
+			}
 			
 		} else {
 			

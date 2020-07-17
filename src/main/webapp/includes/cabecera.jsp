@@ -93,7 +93,8 @@
 	            
 	            <c:if test="${ not empty usuario_login }">
 	             	 <span class="badge badge-pill badge-warning mr-3">${usuario_login.nombre}</span>
-	             	 <span class="badge badge-pill badge-warning mr-3">${usuarios_conectados}</span>
+	             	 <!-- cambiar la redireccion que esta puesta, de index.jsp al frontofficecontroller cuando este creado -->
+	             	 <a class="nav-link  btn btn-outline-warning" href="vistas/frontoffice/index.jsp">Mi panel</a>
             		 <a class="nav-link  btn btn-outline-warning" href="logout">Cerrar Sesion</a>
 	            </c:if>
 	            
