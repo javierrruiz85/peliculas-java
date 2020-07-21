@@ -25,5 +25,17 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
+        
+        <!-- custom js para las datatables -->
+	    <script>
+	        // ejecuta la funcion cuando todo el documento de html DOM este listo y cargado
+	        $(document).ready(function() {
+	            // seleccion por id. la variable puede tener cualquier nombre
+	            // con un #nom_variable usariamos un id="nom_variable"
+	            // con un .nom_variable usariamos un class="nom_variable"
+	            $('.table').DataTable();
+	        });
+	    </script> 
+        
     </body>
 </html>

@@ -65,10 +65,10 @@ public class LoginController extends HttpServlet {
 			
 			if ( usuario.getRol().getId() == Rol.ADMIN) {
 				// TODO cambiar al controller de inicio backoffice, y crearlo primero
-				request.getRequestDispatcher("vistas/backoffice/index.jsp").forward(request, response);
+				request.getRequestDispatcher("vistas/backoffice/inicio").forward(request, response);
 			} else {
 				// TODO cambiar al controller de inicio frontoffice, y crearlo primero
-				request.getRequestDispatcher("vistas/frontoffice/index.jsp").forward(request, response);
+				request.getRequestDispatcher("vistas/frontoffice/inicio").forward(request, response);
 			}
 			
 		} else {

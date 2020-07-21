@@ -93,6 +93,38 @@ public class PeliculaDao {
 														"AND d.id = ? " + 
 														"ORDER BY d.id DESC LIMIT ? ; ";
 	
+	private final String SQL_GET_BY_USUARIO_PELICULA_APROBADA = "SELECT \n" + 
+																	"p.id 'pelicula_id', \n" + 
+																	"p.nombre 'pelicula_titulo', \n" + 
+																	"duracion, \n" + 
+																	"anio, \n" + 
+																	"caratula, \n" + 
+																	"d.id 'distribuidora_id', \n" + 
+																	"d.nombre 'distribuidora_nombre'  \n" + 
+																"FROM \n" + 
+																	"peliculas p , distribuidora d\n" + 
+																"WHERE \n" + 
+																	"p.id_distribuidora  = d.id \n" + 
+																"AND fecha_validacion IS NOT NULL \n" + 
+																"AND p.id_usuario = ? \n" + 
+																"ORDER BY p.id ASC LIMIT 500;";
+	
+	private final String SQL_GET_BY_USUARIO_PELICULA_SIN_APROBAR = 	"SELECT \n" + 
+																		"p.id 'pelicula_id', \n" + 
+																		"p.nombre 'pelicula_titulo', \n" + 
+																		"duracion, \n" + 
+																		"anio, \n" + 
+																		"caratula, \n" + 
+																		"d.id 'distribuidora_id', \n" + 
+																		"d.nombre 'distribuidora_nombre'  \n" + 
+																	"FROM \n" + 
+																		"peliculas p , distribuidora d\n" + 
+																	"WHERE \n" + 
+																		"p.id_distribuidora  = d.id \n" + 
+																	"AND fecha_validacion IS NULL \n" + 
+																	"AND p.id_usuario = ? \n" + 
+																	"ORDER BY p.id ASC LIMIT 500;";
+	
 	private final String SQL_GET_BY_NOMBRE = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE nombre LIKE ? LIMIT 500; ";
 	
 	// executeUpdate => int de numero de filas afectadas (affectedRows)
@@ -201,6 +233,40 @@ public class PeliculaDao {
 		return registros;
 		
 	} // getAllByNombre
+	
+	
+	
+	///////////////////////////////////////////////////////////////////		getAllByUser	  ///////////////////////////////////////////////////////////////
+	
+	public ArrayList<Pelicula> getAllByUser(int idUsuario, boolean isAprobada) {
+		
+		ArrayList<Pelicula> registros = new ArrayList<Pelicula>();
+		
+		String sql = ( isAprobada) ? SQL_GET_BY_USUARIO_PELICULA_APROBADA : SQL_GET_BY_USUARIO_PELICULA_SIN_APROBAR;
+		
+		try (	Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(sql);
+			) {
+			
+			// TODO ¿se podria hacer con una sola SQL?
+			
+			pst.setInt(1, idUsuario);
+			
+			LOG.debug(pst);
+			
+			try ( ResultSet rs = pst.executeQuery() ) {
+				while ( rs.next( )) {
+					registros.add(mapper(rs));
+				} // while
+			} // try
+			
+		} catch (Exception e) {
+			LOG.error(e);
+		} // try-catch
+		
+		return registros;
+		
+	}
 	
 	
 	

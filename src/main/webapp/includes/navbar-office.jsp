@@ -15,17 +15,17 @@
                             </a>
                             
                             <div class="sb-sidenav-menu-heading">Peliculas</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="vistas/frontoffice/peliculas">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Aprobadas
                             </a>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="vistas/frontoffice/peliculas?validadas=0">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Pendientes
                             </a>
                             
                             <div class="sb-sidenav-menu-heading">Edicion</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="vistas/frontoffice/crear-pelicula">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Crear pelicula
                             </a>
