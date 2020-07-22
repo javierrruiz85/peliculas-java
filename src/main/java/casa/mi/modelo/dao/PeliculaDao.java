@@ -307,8 +307,8 @@ public class PeliculaDao {
 					// con este mapper nos ahorramos setear campos que no necesitamos, como duracion, anio, caratula, etc
 					resultado.setIdUsuario(idUsuario);
 					resultado.setPeliculasTotal(rs.getInt("total"));
-					resultado.setPeliculasAprobadas(rs.getInt("aprobadas"));
-					resultado.setPeliculasPendientes(rs.getInt("pendientes"));
+					resultado.setPeliculasAprobadas(rs.getInt("aprobado"));
+					resultado.setPeliculasPendientes(rs.getInt("pendiente"));
 				}
 			}
 			
