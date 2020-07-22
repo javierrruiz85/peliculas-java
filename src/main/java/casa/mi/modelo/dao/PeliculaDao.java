@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import casa.mi.modelo.conexion.ConnectionManager;
 import casa.mi.modelo.pojo.Distribuidora;
 import casa.mi.modelo.pojo.Pelicula;
+import casa.mi.modelo.pojo.ResumenUsuario;
 
 import java.sql.Connection;
 
@@ -93,6 +94,22 @@ public class PeliculaDao {
 														"AND d.id = ? " + 
 														"ORDER BY d.id DESC LIMIT ? ; ";
 	
+	/* 
+	 * Para crear la vista:
+	 * 
+	CREATE VIEW v_usuario_peliculas AS 
+	SELECT  
+	  id_usuario,  
+	  COUNT( id_usuario ) as total , 
+	  SUM( ISNULL( fecha_validacion )) as pendiente ,
+	  COUNT( fecha_validacion ) as aprobado 
+	FROM peliculas 
+	GROUP BY id_usuario;
+	*/
+	
+	// la sql que usamos para sacar los datos de la vista
+	private final String SQL_VIEW_RESUMEN_USUARIO = " SELECT id_usuario, total, aprobado, pendiente FROM v_usuario_peliculas WHERE id_usuario = ?; ";
+	
 	private final String SQL_GET_BY_USUARIO_PELICULA_APROBADA = "SELECT \n" + 
 																	"p.id 'pelicula_id', \n" + 
 																	"p.nombre 'pelicula_titulo', \n" + 
@@ -126,6 +143,7 @@ public class PeliculaDao {
 																	"ORDER BY p.id ASC LIMIT 500;";
 	
 	private final String SQL_GET_BY_NOMBRE = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE nombre LIKE ? LIMIT 500; ";
+	
 	
 	// executeUpdate => int de numero de filas afectadas (affectedRows)
 	private final String SQL_INSERT = " INSERT INTO peliculas (nombre, duracion, anio, caratula, id_distribuidora) VALUES (?, ?, ?, ?, ?); ";
@@ -266,6 +284,39 @@ public class PeliculaDao {
 		
 		return registros;
 		
+	}
+	
+	
+	
+	///////////////////////////////////////////////////////////////////		getAllByUser	  ///////////////////////////////////////////////////////////////
+
+	public ResumenUsuario getResumenByUsuario(int idUsuario) {
+		
+		ResumenUsuario resultado = new ResumenUsuario();
+		
+		try (	Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_VIEW_RESUMEN_USUARIO);
+			) {
+			
+			pst.setInt(1, idUsuario);
+			LOG.debug(pst);
+			
+			try ( ResultSet rs = pst.executeQuery() ) {
+				if ( rs.next() ) {
+					// mapper de ResultSet a pojo
+					// con este mapper nos ahorramos setear campos que no necesitamos, como duracion, anio, caratula, etc
+					resultado.setIdUsuario(idUsuario);
+					resultado.setPeliculasTotal(rs.getInt("total"));
+					resultado.setPeliculasAprobadas(rs.getInt("aprobadas"));
+					resultado.setPeliculasPendientes(rs.getInt("pendientes"));
+				}
+			}
+			
+		} catch (Exception e) {
+			LOG.error(e);
+		}
+		
+		return resultado;
 	}
 	
 	

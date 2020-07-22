@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import casa.mi.modelo.dao.PeliculaDao;
+import casa.mi.modelo.pojo.ResumenUsuario;
+import casa.mi.modelo.pojo.Usuario;
+
 /**
  * Servlet implementation class InicioFrontOfficeController
  */
@@ -16,17 +20,23 @@ import org.apache.log4j.Logger;
 public class InicioFrontOfficeController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	private final static Logger LOG = Logger.getLogger(InicioFrontOfficeController.class);
+	private static final Logger LOG = Logger.getLogger(InicioFrontOfficeController.class);
+	private static final PeliculaDao daoPelicula = PeliculaDao.getInstance();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// TODO recuperar datos de inicio para el usuario
+		// recuperar datos de inicio para el usuario
+		Usuario usuarioSession = (Usuario) request.getSession().getAttribute("usuario_login");
+		int idUsuario = usuarioSession.getId();
 		
-		request.setAttribute("peliculas_aprobadas", 4);
-		request.setAttribute("peliculas_pendientes", 2);
+		//request.setAttribute("peliculas_aprobadas", 4);
+		//request.setAttribute("peliculas_pendientes", 2);
+		
+		ResumenUsuario resumen = daoPelicula.getResumenByUsuario(idUsuario);
+		request.setAttribute("resumen", resumen);
 		
 		// CUIDADO: mirar la URL del servlet "/vistas/frontoffice/inicio"
 		// al hacer forward se pierde lo ultimo de la url y se le suma la variable pagina
