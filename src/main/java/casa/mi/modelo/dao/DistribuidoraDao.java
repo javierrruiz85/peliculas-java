@@ -1,5 +1,6 @@
 package casa.mi.modelo.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,14 +38,28 @@ public class DistribuidoraDao {
 	// Fin Singleton
 	
 	// excuteQuery => ResultSet
-	private final String SQL_GET_ALL = " SELECT id, nombre FROM distribuidora ORDER BY nombre ASC; ";
+	// private final String SQL_GET_ALL = " SELECT id, nombre FROM distribuidora ORDER BY nombre ASC; ";
+	
+	// ATENCION: en java, las llamadas a los procedimientos deben ir entre llaves {}
+	private final String PA_GET_ALL = " { CALL pa_distribuidora_listar() } ";
+	
+	
 	private final String SQL_GET_ALL_WITH_PELICULAS = " SELECT d.id 'distribuidora_id', d.nombre 'distribuidora_nombre', p.id 'pelicula_id', p.nombre 'pelicula_nombre', duracion, anio, caratula FROM distribuidora d, peliculas p WHERE d.id = p.id_distribuidora ORDER BY d.nombre ASC; ";
-	private final String SQL_GET_BY_ID = " SELECT id, nombre FROM distribuidora WHERE id = ?; ";
-
+	
+	
+	//private final String SQL_GET_BY_ID = " SELECT id, nombre FROM distribuidora WHERE id = ?; ";
+	// TODO crear la llamada pa_distribuidora_por_id(?) en dbeaver
+	private final String PA_GET_BY_ID = " { CALL pa_distribuidora_por_id(?) } ";
+	
 	// executeUpdate => int de numero de filas afectadas (affectedRows)
-	private final String SQL_INSERT = " INSERT INTO distribuidora ( nombre ) VALUES ( ? ) ; ";
-	private final String SQL_UPDATE = " UPDATE distribuidora SET nombre = ? WHERE id = ? ; ";
-	private final String SQL_DELETE = " DELETE FROM distribuidora WHERE id = ? ; ";
+	//private final String SQL_INSERT = " INSERT INTO distribuidora ( nombre ) VALUES ( ? ) ; ";
+	//private final String SQL_UPDATE = " UPDATE distribuidora SET nombre = ? WHERE id = ? ; ";
+	//private final String SQL_DELETE = " DELETE FROM distribuidora WHERE id = ? ; ";
+	
+	// TODO crear la llamada pa_distribuidora_update(?,?) en dbeaver
+	private final String PA_INSERT = " { CALL pa_distribuidora_insertar(?,?)} ";
+	private final String PA_UPDATE = " { CALL pa_distribuidora_update(?,?) } ";
+	private final String PA_DELETE = " { CALL pa_distribuidora_delete(?) } ";
 	
 	
 	//////////////////////////////////////////////////////////////////// getAll ////////////////////////////////////////////////////////////////////
@@ -54,11 +69,12 @@ public class DistribuidoraDao {
 		ArrayList<Distribuidora> registros = new ArrayList<Distribuidora>();
 
 		try ( Connection conexion = ConnectionManager.getConnection();
-			  PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
-			  ResultSet rs = pst.executeQuery();
+			  //PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
+			  CallableStatement cs = conexion.prepareCall(PA_GET_ALL);
+			  ResultSet rs = cs.executeQuery();
 		) {
 
-			LOG.debug(pst);
+			LOG.debug(cs);
 			while (rs.next()) {
 				registros.add(mapper(rs));
 			} // while
@@ -137,12 +153,13 @@ public class DistribuidoraDao {
 		Distribuidora registro = new Distribuidora();
 		
 		try ( Connection conexion = ConnectionManager.getConnection();
-			  PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_ID);
+			  //PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_ID);
+			  CallableStatement cs = conexion.prepareCall(PA_GET_BY_ID);
 		) {
 			
-			pst.setInt(1, id);
-			LOG.debug(pst);
-			ResultSet rs = pst.executeQuery();
+			cs.setInt(1, id);
+			LOG.debug(cs);
+			ResultSet rs = cs.executeQuery();
 			
 			if ( rs.next() ) {
 				registro = mapper(rs);
@@ -163,16 +180,20 @@ public class DistribuidoraDao {
 	public Distribuidora insert(Distribuidora pojo) throws Exception {
 		
 		try ( Connection conexion = ConnectionManager.getConnection();
-			  PreparedStatement pst = conexion.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+			  //PreparedStatement pst = conexion.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+			  CallableStatement cs = conexion.prepareCall(PA_INSERT);
 		) {
 			
-			pst.setString( 1, pojo.getNombre() );
-			LOG.debug(pst);
+			cs.setString( 1, pojo.getNombre() );				// IN pNombre Varchar(100)
+			cs.registerOutParameter(2, java.sql.Types.INTEGER);	// OUT pIdGenerado INT
 			
-			int affectedRows = pst.executeUpdate();
+			LOG.debug(cs);
+			
+			/*
+			int affectedRows = cs.executeUpdate();
 			
 			if ( affectedRows == 1 ) {
-				try ( ResultSet rsKeys = pst.getGeneratedKeys() ) {
+				try ( ResultSet rsKeys = cs.getGeneratedKeys() ) {
 					if ( rsKeys.next() ) {
 						pojo.setId(rsKeys.getInt(1));
 					} // if-1
@@ -180,6 +201,13 @@ public class DistribuidoraDao {
 			} else {
 				throw new Exception("No se ha podido guardar el registro " + pojo);
 			} // if-else-1
+			*/
+			
+			cs.execute();
+			
+			int id = cs.getInt(2); // recogemos el parametro de salida, despues de ejecutar el PA
+			
+			pojo.setId(id);
 			
 		} // try-1
 		
@@ -193,28 +221,32 @@ public class DistribuidoraDao {
 	
 	public Distribuidora update(Distribuidora pojo) throws Exception {
 		
+		/*
 		if (pojo==null) {
 			throw new Exception("No se puede modificar si es NULL");
 		} // if
+		*/
 		
 		try ( Connection conexion = ConnectionManager.getConnection();
-			  PreparedStatement pst = conexion.prepareStatement(SQL_UPDATE);
+			  //PreparedStatement pst = conexion.prepareStatement(SQL_UPDATE);
+			  CallableStatement cs = conexion.prepareCall(PA_UPDATE);
 		) {
 			
-			pst.setString( 1, pojo.getNombre() );
-			pst.setInt( 2, pojo.getId() );
+			cs.setString( 1, pojo.getNombre() );
+			cs.setInt( 2, pojo.getId() );
 			
-			LOG.debug(pst);
+			LOG.debug(cs);
 			
-			int affectedRows = pst.executeUpdate();
+			int affectedRows = cs.executeUpdate();
 			
 			if ( affectedRows != 1 ) {
 				throw new Exception("No se puede modificar el registro con id=" + pojo.getId());
 			} //if
 			
-		} catch (Exception e) {
+		} /*catch (Exception e) {
 			throw new Exception("No se puede modificar la distribuidora con id=" + pojo.getId());
 		} // try-catch
+		*/
 
 		return pojo;
 		
@@ -229,16 +261,17 @@ public class DistribuidoraDao {
 		Distribuidora pojo = null;
 		
 		try ( Connection conexion = ConnectionManager.getConnection();
-			  PreparedStatement pst = conexion.prepareStatement(SQL_DELETE);
+			  //PreparedStatement pst = conexion.prepareStatement(SQL_DELETE);
+			  CallableStatement cs = conexion.prepareCall(PA_DELETE);
 		) {
 			
 			// recuperamos antes de eliminar
 			pojo = getById(id);
 			
 			// eliminar
-			pst.setInt(1, id);
-			LOG.debug(pst);
-			pst.executeUpdate();
+			cs.setInt(1, id);
+			LOG.debug(cs);
+			cs.executeUpdate();
 
 		} // try
 		

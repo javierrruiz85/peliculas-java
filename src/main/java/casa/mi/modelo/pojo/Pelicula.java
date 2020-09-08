@@ -32,6 +32,8 @@ public class Pelicula {
 	
 	private Distribuidora distribuidora;
 	
+	private Usuario usuario;
+	
 	public Pelicula() {
 		super();
 		this.id = 0;
@@ -39,6 +41,13 @@ public class Pelicula {
 		this.duracion = 0;
 		this.anio = 0;
 		this.caratula = "https://picsum.photos/50/75";
+		this.distribuidora = new Distribuidora();
+		this.usuario = new Usuario();
+	}
+
+	public Pelicula(String nombre) {
+		this();
+		this.nombre = nombre;
 	}
 
 	public int getId() {
@@ -80,7 +89,7 @@ public class Pelicula {
 	public void setCaratula(String caratula) {
 		this.caratula = caratula;
 	}
-	
+
 	public Distribuidora getDistribuidora() {
 		return distribuidora;
 	}
@@ -89,18 +98,18 @@ public class Pelicula {
 		this.distribuidora = distribuidora;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	@Override
 	public String toString() {
 		return "Pelicula [id=" + id + ", nombre=" + nombre + ", duracion=" + duracion + ", anio=" + anio + ", caratula="
-				+ caratula + ", distribuidora=" + distribuidora + "]";
+				+ caratula + ", distribuidora=" + distribuidora + ", usuario=" + usuario + "]";
 	}
-
 	
-
-	
-	
-	
-	
-	
-
 }

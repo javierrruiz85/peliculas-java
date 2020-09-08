@@ -11,6 +11,7 @@ import casa.mi.modelo.conexion.ConnectionManager;
 import casa.mi.modelo.pojo.Distribuidora;
 import casa.mi.modelo.pojo.Pelicula;
 import casa.mi.modelo.pojo.ResumenUsuario;
+import casa.mi.modelo.pojo.Usuario;
 
 import java.sql.Connection;
 
@@ -101,14 +102,14 @@ public class PeliculaDao {
 	SELECT  
 	  id_usuario,  
 	  COUNT( id_usuario ) as total , 
-	  SUM( ISNULL( fecha_validacion )) as pendiente ,
-	  COUNT( fecha_validacion ) as aprobado 
+	  SUM( ISNULL( fecha_validacion )) as pendientes ,
+	  COUNT( fecha_validacion ) as aprobadas 
 	FROM peliculas 
 	GROUP BY id_usuario;
 	*/
 	
 	// la sql que usamos para sacar los datos de la vista
-	private final String SQL_VIEW_RESUMEN_USUARIO = " SELECT id_usuario, total, aprobado, pendiente FROM v_usuario_peliculas WHERE id_usuario = ?; ";
+	private final String SQL_VIEW_RESUMEN_USUARIO = " SELECT id_usuario, total, aprobadas, pendientes FROM v_usuario_peliculas WHERE id_usuario = ?; ";
 	
 	private final String SQL_GET_BY_USUARIO_PELICULA_APROBADA = "SELECT \n" + 
 																	"p.id 'pelicula_id', \n" + 
@@ -144,11 +145,30 @@ public class PeliculaDao {
 	
 	private final String SQL_GET_BY_NOMBRE = " SELECT id, nombre, duracion, anio, caratula FROM peliculas WHERE nombre LIKE ? LIMIT 500; ";
 	
+	private final String SQL_GET_BY_ID_AND_USUARIO = 	" SELECT " + 
+															"p.id 'pelicula_id', " + 
+															"p.nombre 'pelicula_titulo', " + 
+															"duracion, " + 
+															"anio, " + 
+															"caratula, " + 
+															"d.id 'distribuidora_id', " + 
+															"d.nombre 'distribuidora_nombre', " + 
+															"u.id'usuario_id', " + 
+															"u.nombre 'usuario_nombre' " + 
+														"FROM peliculas p, distribuidora d, usuario u " + 
+														"WHERE p.id_distribuidora = d.id AND p.id_usuario = u.id AND p.id = ? AND p.id_usuario = ? " + 
+														"ORDER BY p.id ASC " + 
+														"LIMIT 500; " ;
+	
 	
 	// executeUpdate => int de numero de filas afectadas (affectedRows)
-	private final String SQL_INSERT = " INSERT INTO peliculas (nombre, duracion, anio, caratula, id_distribuidora) VALUES (?, ?, ?, ?, ?); ";
+	private final String SQL_INSERT = " INSERT INTO peliculas (nombre, duracion, anio, caratula, id_usuario, id_distribuidora) VALUES (?, ?, ?, ?, ?, ?); ";
+	
 	private final String SQL_UPDATE = " UPDATE peliculas SET nombre = ?, duracion = ?, anio = ?, caratula = ?, id_distribuidora = ? WHERE id = ?; ";
+	private final String SQL_UPDATE_BY_USUARIO = " UPDATE peliculas SET nombre = ?, duracion = ?, anio = ?, caratula = ?, id_distribuidora = ? WHERE id = ? AND id_usuario = ?; ";
+	
 	private final String SQL_DELETE = " DELETE FROM peliculas WHERE id = ?; ";
+	private final String SQL_DELETE_BY_USUARIO = " DELETE FROM peliculas WHERE id = ? AND id_usuario = ?; ";
 	
 	
 	///////////////////////////////////////////////////////////////////		getAll	  ///////////////////////////////////////////////////////////////
@@ -288,7 +308,7 @@ public class PeliculaDao {
 	
 	
 	
-	///////////////////////////////////////////////////////////////////		getAllByUser	  ///////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////		getResumenByUsuario	  ///////////////////////////////////////////////////////////////
 
 	public ResumenUsuario getResumenByUsuario(int idUsuario) {
 		
@@ -307,8 +327,8 @@ public class PeliculaDao {
 					// con este mapper nos ahorramos setear campos que no necesitamos, como duracion, anio, caratula, etc
 					resultado.setIdUsuario(idUsuario);
 					resultado.setPeliculasTotal(rs.getInt("total"));
-					resultado.setPeliculasAprobadas(rs.getInt("aprobado"));
-					resultado.setPeliculasPendientes(rs.getInt("pendiente"));
+					resultado.setPeliculasAprobadas(rs.getInt("aprobadas"));
+					resultado.setPeliculasPendientes(rs.getInt("pendientes"));
 				}
 			}
 			
@@ -396,7 +416,8 @@ public class PeliculaDao {
 			pst.setInt(2, pojo.getDuracion());
 			pst.setInt(3, pojo.getAnio());
 			pst.setString(4, pojo.getCaratula());
-			pst.setInt(5, pojo.getDistribuidora().getId());
+			pst.setInt(5, pojo.getUsuario().getId());
+			pst.setInt(6, pojo.getDistribuidora().getId());
 			
 			LOG.debug(pst);
 			
@@ -466,17 +487,55 @@ public class PeliculaDao {
 	
 	
 	
+	///////////////////////////////////////////////////////////////////		SQL_UPDATE_BY_USUARIO		///////////////////////////////////////////////////////////////
+
+	public Pelicula updateByUsuario(Pelicula pojo) throws Exception, SeguridadException {
+		
+		try (
+				Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_UPDATE_BY_USUARIO);		
+		) {
+			
+			int peliculaId = pojo.getId();
+			int usuarioId = pojo.getUsuario().getId();
+			
+			checkSeguridad(peliculaId, usuarioId);
+			
+			pst.setString(1, pojo.getNombre());
+			pst.setInt(2, pojo.getDuracion());
+			pst.setInt(3, pojo.getAnio());
+			pst.setString(4, pojo.getCaratula());
+			pst.setInt(5, pojo.getDistribuidora().getId());
+			pst.setInt(6, pojo.getId());
+			
+			LOG.debug(pst);
+			
+			int affectedRows = pst.executeUpdate();
+			
+			if (affectedRows != 1) {
+				throw new Exception("No se puede modificar la pelicula con ID " + pojo.getId() );
+			} // if
+			
+		}
+		
+		
+		return pojo;
+		
+	} // updateByUsuario
+	
+	
+	
 	///////////////////////////////////////////////////////////////////		DELETE		///////////////////////////////////////////////////////////////
 	
 	public Pelicula delete(int id) throws Exception {
 		
+		// obtener el producto antes de eliminar
 		Pelicula registro = getById(id);
 		
 		try (
 				Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(SQL_DELETE);
-				
-			) {
+		) {
 			
 			pst.setInt(1, id);
 			LOG.debug(pst);
@@ -494,10 +553,70 @@ public class PeliculaDao {
 	
 	
 	
+	///////////////////////////////////////////////////////////////////		SQL_DELETE_BY_USUARIO		///////////////////////////////////////////////////////////////
+
+	public Pelicula deleteByUser(int peliculaId, int usuarioId) throws Exception, SeguridadException {
+		
+		Pelicula registro = checkSeguridad(peliculaId, usuarioId);
+		
+		try (
+				Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_DELETE_BY_USUARIO);
+		) {
+			
+			pst.setInt(1, peliculaId);
+			pst.setInt(2, usuarioId);
+			
+			LOG.debug(pst);
+			
+			pst.executeUpdate();
+			
+		} // try
+		
+		return registro;
+		
+	}
+	
+
+	
+	
+	
 	///////////////////////////////////////////////////////////////////		validar		///////////////////////////////////////////////////////////////
 	
 	public void validar(int id) {
 		// TODO hacer
+	}
+	
+	
+	
+	///////////////////////////////////////////////////////////////////		checkSeguridad		///////////////////////////////////////////////////////////////
+
+	public Pelicula checkSeguridad(int peliculaId, int usuarioId) throws Exception, SeguridadException {
+		
+		Pelicula registro = new Pelicula();
+		
+		try (
+				Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_ID_AND_USUARIO);
+		) {
+			
+			pst.setInt(1, peliculaId);
+			pst.setInt(2, usuarioId);
+			
+			LOG.debug(pst);
+			
+			ResultSet rs = pst.executeQuery();
+			
+			if ( rs.next() ) {
+				registro = mapper(rs);
+			} else {
+				throw new SeguridadException();
+			}
+			
+		}
+		
+		return registro;
+		
 	}
 	
 	
@@ -508,6 +627,7 @@ public class PeliculaDao {
 		
 		Pelicula p = new Pelicula();
 		Distribuidora d = new Distribuidora();
+		Usuario u = new Usuario();
 		
 		p.setId( rs.getInt("pelicula_id") );
 		p.setNombre( rs.getString("pelicula_titulo") );
@@ -517,8 +637,11 @@ public class PeliculaDao {
 		
 		d.setId( rs.getInt("distribuidora_id") );
 		d.setNombre( rs.getString("distribuidora_nombre") );
-		
 		p.setDistribuidora(d);
+		
+		u.setId(rs.getInt("usuario_id"));
+		u.setNombre(rs.getString("usuario_nombre"));
+		p.setUsuario(u);
 				
 		return p;
 		

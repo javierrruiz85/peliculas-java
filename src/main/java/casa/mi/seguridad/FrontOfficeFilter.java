@@ -26,10 +26,10 @@ import casa.mi.modelo.pojo.Usuario;
 				DispatcherType.INCLUDE, 
 				DispatcherType.ERROR
 		}
-					, urlPatterns = { "/vistas/backoffice/*" })
-public class BackOfficeFilter implements Filter {
+					, urlPatterns = { "/vistas/frontoffice/*" })
+public class FrontOfficeFilter implements Filter {
 
-    private final static Logger LOG = Logger.getLogger(BackOfficeFilter.class);
+    private final static Logger LOG = Logger.getLogger(FrontOfficeFilter.class);
 
 	/**
 	 * @see Filter#destroy()
@@ -57,9 +57,6 @@ public class BackOfficeFilter implements Filter {
 		
 		if (usuarioLogin == null) {
 			LOG.warn("Usuario sin autentificar");
-			res.sendRedirect(urlInicio + "/vistas/login.jsp");
-		} else if (usuarioLogin.getRol().getId() != Rol.ADMIN) {
-			LOG.warn("Usuario sin privilegios de Administrador, sin autorizacion");
 			res.sendRedirect(urlInicio + "/vistas/login.jsp");
 		} else {
 			chain.doFilter(request, response);

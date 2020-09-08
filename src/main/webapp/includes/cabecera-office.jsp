@@ -22,7 +22,7 @@
     
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="vistas/frontoffice/index.jsp">Mi panel</a>
+            <a class="navbar-brand" href="vistas/frontoffice/inicio">Mi panel</a>
            
             <!-- Navbar Logout-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
