@@ -14,8 +14,13 @@ import casa.mi.modelo.dao.DistribuidoraDao;
 import casa.mi.modelo.pojo.Distribuidora;
 
 /**
- * Servlet implementation class DistribuidoraController
+ * Crea, edita o elimina distribuidoras.
+ * 
+ * @author Javier Ruiz
+ * @version 1.0
+ * 
  */
+
 @WebServlet("/distribuidora")
 public class DistribuidoraController extends HttpServlet {
 	

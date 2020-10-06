@@ -10,6 +10,15 @@ import casa.mi.modelo.conexion.ConnectionManager;
 import casa.mi.modelo.pojo.Rol;
 import casa.mi.modelo.pojo.Usuario;
 
+/**
+ * 
+ * Realiza todas las operaciones referentes a los usuarios.
+ * 
+ *@author Javier Ruiz
+ *@version 1.0
+ *
+ */
+
 public class UsuarioDao {
 	
 	// Inicio singleton
@@ -41,6 +50,21 @@ public class UsuarioDao {
 	
 	
 	/////////////////////////////////////////////////   EXISTE   ////////////////////////////////////////////////////
+	
+	/**
+	 * 
+	 * Comprueba si el usuario que se logea existe o no en la base de datos y le permite acceder a su pagina de usuario.
+	 * 
+	 *	<dl> 
+	 *		@param nombre
+	 *		<dd>string, nombre del usuario 
+	 *		@param pass
+	 *		<dd>string, contraseña del usuario
+	 *		@return 
+	 *		<dd>retorna usuario con sus parametros, rol incluido  
+	 *	</dl>
+	 *
+	 */
 	
 	public Usuario existe(String nombre, String pass) {
 		

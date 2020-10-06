@@ -16,7 +16,18 @@ import casa.mi.modelo.pojo.Rol;
 import casa.mi.modelo.pojo.Usuario;
 
 /**
- * Servlet implementation class LoginController
+ * Logea a los usuarios en la app. Comprueba si su rol es admin o user.
+ * 
+ *	<dl> 
+ *		<dt>parametro nombre
+ *		<dd>string, nombre del usuario 
+ *		<dt>parametro pass
+ *		<dd>string, contraseña del usuario 
+ *	</dl>
+ * 
+ * @author Javier Ruiz
+ * @version 1.0
+ * 
  */
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
