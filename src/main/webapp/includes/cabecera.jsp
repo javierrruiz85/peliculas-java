@@ -82,6 +82,10 @@
 			          	</c:forEach>			          
 			        </div>
 			    </li>
+			    
+			    <li class="nav-item">
+					<a class="nav-link" href="http://localhost:8080/peliculas.javi/doc/index.html">JavaDoc</a>
+				</li>
 				
 			</ul>
 			
