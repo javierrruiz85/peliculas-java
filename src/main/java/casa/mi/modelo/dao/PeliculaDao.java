@@ -59,7 +59,8 @@ public class PeliculaDao {
 											"p.id 'pelicula_id', " + 
 											"p.nombre 'pelicula_titulo', " + 
 											"duracion, " + 
-											"anio, " + 
+											"anio, " +
+											"id_usuario, " +
 											"caratula, " + 
 											"d.id 'distribuidora_id', " + 
 											"d.nombre 'distribuidora_nombre' " + 
@@ -71,6 +72,7 @@ public class PeliculaDao {
 											"p.nombre 'pelicula_titulo', " + 
 											"p.duracion, " + 
 											"p.anio, " + 
+											"id_usuario, " +
 											"p.caratula, " + 
 											"d.id 'distribuidora_id', " + 
 											"d.nombre 'distribuidora_nombre'" + 
@@ -86,6 +88,7 @@ public class PeliculaDao {
 															"p.nombre 'pelicula_titulo', " + 
 															"p.duracion, " + 
 															"p.anio, " + 
+															"id_usuario, " +
 															"p.caratula, " + 
 															"d.id 'distribuidora_id', " + 
 															"d.nombre 'distribuidora_nombre' " + 
@@ -116,7 +119,8 @@ public class PeliculaDao {
 																	"p.id 'pelicula_id', \n" + 
 																	"p.nombre 'pelicula_titulo', \n" + 
 																	"duracion, \n" + 
-																	"anio, \n" + 
+																	"anio, \n" +
+																	"id_usuario, " +
 																	"caratula, \n" + 
 																	"d.id 'distribuidora_id', \n" + 
 																	"d.nombre 'distribuidora_nombre'  \n" + 
@@ -133,6 +137,7 @@ public class PeliculaDao {
 																		"p.nombre 'pelicula_titulo', \n" + 
 																		"duracion, \n" + 
 																		"anio, \n" + 
+																		"id_usuario, " +
 																		"caratula, \n" + 
 																		"d.id 'distribuidora_id', \n" + 
 																		"d.nombre 'distribuidora_nombre'  \n" + 
@@ -151,6 +156,7 @@ public class PeliculaDao {
 															"p.nombre 'pelicula_titulo', " + 
 															"duracion, " + 
 															"anio, " + 
+															"id_usuario, " +
 															"caratula, " + 
 															"d.id 'distribuidora_id', " + 
 															"d.nombre 'distribuidora_nombre', " + 

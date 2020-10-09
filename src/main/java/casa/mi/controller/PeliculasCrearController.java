@@ -14,11 +14,14 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.apache.log4j.Logger;
+
 import casa.mi.controller.pojo.Alerta;
 import casa.mi.modelo.dao.DistribuidoraDao;
 import casa.mi.modelo.dao.PeliculaDao;
 import casa.mi.modelo.pojo.Distribuidora;
 import casa.mi.modelo.pojo.Pelicula;
+import casa.mi.modelo.pojo.Usuario;
 
 /**
  * Servlet implementation class PeliculasCrearController
@@ -27,12 +30,15 @@ import casa.mi.modelo.pojo.Pelicula;
 public class PeliculasCrearController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	private final static Logger LOG = Logger.getLogger(PeliculasCrearController.class);
 	
 	private static PeliculaDao daoPelicula = PeliculaDao.getInstance();
 	private static DistribuidoraDao daoDistribuidora = DistribuidoraDao.getInstance();
 	
 	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	private static Validator validator = factory.getValidator();
+	
+	
        
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -125,6 +131,10 @@ public class PeliculasCrearController extends HttpServlet {
 			d.setId(idDistribuidora);
 			pelicula.setDistribuidora(d);
 			
+			// asignar el usuario de session
+			Usuario usuario = (Usuario) request.getSession().getAttribute("usuario_login");
+			pelicula.setUsuario(usuario);
+			
 			
 			Set<ConstraintViolation<Pelicula>> violations = validator.validate(pelicula);
 			
@@ -167,6 +177,7 @@ public class PeliculasCrearController extends HttpServlet {
 			
 			// en caso de que ocurra algun otro tipo de error, mala programacion o algun otro fallo
 			alerta = new Alerta("danger", "Lo sentimos, ha ocurrido un error desconocido" );
+			LOG.error(e);
 			e.printStackTrace();
 
 		} finally {
