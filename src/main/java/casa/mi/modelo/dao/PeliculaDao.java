@@ -46,6 +46,7 @@ public class PeliculaDao {
 											"p.nombre 'pelicula_titulo', " + 
 											"duracion, " + 
 											"anio, " + 
+											"id_usuario, " + 
 											"caratula, " + 
 											"d.id 'distribuidora_id', " + 
 											"d.nombre 'distribuidora_nombre' " + 
@@ -623,7 +624,7 @@ public class PeliculaDao {
 	
 	///////////////////////////////////////////////////////////////////		MAPPER		///////////////////////////////////////////////////////////////
 	
-	public Pelicula mapper(ResultSet rs) throws SQLException {
+	private Pelicula mapper(ResultSet rs) throws SQLException {
 		
 		Pelicula p = new Pelicula();
 		Distribuidora d = new Distribuidora();
@@ -639,8 +640,8 @@ public class PeliculaDao {
 		d.setNombre( rs.getString("distribuidora_nombre") );
 		p.setDistribuidora(d);
 		
-		u.setId(rs.getInt("usuario_id"));
-		u.setNombre(rs.getString("usuario_nombre"));
+		u.setId(rs.getInt("id_usuario"));
+		//u.setNombre(rs.getString("usuario_nombre"));
 		p.setUsuario(u);
 				
 		return p;

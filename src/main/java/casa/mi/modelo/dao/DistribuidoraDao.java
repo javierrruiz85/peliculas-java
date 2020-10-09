@@ -38,10 +38,11 @@ public class DistribuidoraDao {
 	// Fin Singleton
 	
 	// excuteQuery => ResultSet
-	// private final String SQL_GET_ALL = " SELECT id, nombre FROM distribuidora ORDER BY nombre ASC; ";
+	private final String SQL_GET_ALL = " SELECT id, nombre FROM distribuidora ORDER BY nombre ASC; ";
 	
 	// ATENCION: en java, las llamadas a los procedimientos deben ir entre llaves {}
-	private final String PA_GET_ALL = " { CALL pa_distribuidora_listar() } ";
+	//private final String PA_GET_ALL = " { CALL pa_distribuidora_listar() } ";
+	
 	
 	
 	private final String SQL_GET_ALL_WITH_PELICULAS = " SELECT d.id 'distribuidora_id', d.nombre 'distribuidora_nombre', p.id 'pelicula_id', p.nombre 'pelicula_nombre', duracion, anio, caratula FROM distribuidora d, peliculas p WHERE d.id = p.id_distribuidora ORDER BY d.nombre ASC; ";
@@ -69,12 +70,12 @@ public class DistribuidoraDao {
 		ArrayList<Distribuidora> registros = new ArrayList<Distribuidora>();
 
 		try ( Connection conexion = ConnectionManager.getConnection();
-			  //PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
-			  CallableStatement cs = conexion.prepareCall(PA_GET_ALL);
-			  ResultSet rs = cs.executeQuery();
+			  PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
+			  //CallableStatement cs = conexion.prepareCall(PA_GET_ALL);
+			  ResultSet rs = pst.executeQuery();
 		) {
 
-			LOG.debug(cs);
+			LOG.debug(pst);
 			while (rs.next()) {
 				registros.add(mapper(rs));
 			} // while

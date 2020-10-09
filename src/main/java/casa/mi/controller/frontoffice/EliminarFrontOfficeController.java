@@ -1,7 +1,6 @@
 package casa.mi.controller.frontoffice;
 
 import java.io.IOException;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
